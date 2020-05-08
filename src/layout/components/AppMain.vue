@@ -1,3 +1,11 @@
+<!--
+ * @Author: your name
+ * @Date: 2020-05-08 11:19:19
+ * @LastEditTime: 2020-05-08 14:43:31
+ * @LastEditors: Please set LastEditors
+ * @Description: In User Settings Edit
+ * @FilePath: /admin-back/src/layout/components/AppMain.vue
+ -->
 <template>
   <section class="app-main">
     <transition name="fade-transform" mode="out-in">

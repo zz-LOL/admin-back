@@ -1,5 +1,6 @@
 <template>
   <div class="app-container">
+    <el-button type="primary" @click="goDetail">详情页面</el-button>
     <el-table
       v-loading="listLoading"
       :data="list"
@@ -67,6 +68,11 @@ export default {
     this.fetchData()
   },
   methods: {
+    goDetail(){
+      this.$router.push({
+        path:'/detail'
+      })
+    },
     fetchData() {
       this.listLoading = true
       getList().then(response => {

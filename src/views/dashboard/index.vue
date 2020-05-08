@@ -1,3 +1,11 @@
+<!--
+ * @Author: your name
+ * @Date: 2020-05-08 11:19:19
+ * @LastEditTime: 2020-05-08 14:06:18
+ * @LastEditors: Please set LastEditors
+ * @Description: In User Settings Edit
+ * @FilePath: /admin-back/src/views/dashboard/index.vue
+ -->
 <template>
   <div class="dashboard-container">
     <div class="dashboard-text">name: {{ name }}</div>

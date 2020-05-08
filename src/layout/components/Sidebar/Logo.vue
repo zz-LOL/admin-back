@@ -1,3 +1,11 @@
+<!--
+ * @Author: wangxudong
+ * @Email: wangxudong@foxgoing.com
+ * @Date: 2020-05-08 10:43:37
+ * @LastEditors: wangxudong
+ * @LastEditTime: 2020-05-08 14:32:22
+ * @Description: sidebar头部
+ -->
 <template>
   <div class="sidebar-logo-container" :class="{'collapse':collapse}">
     <transition name="sidebarLogoFade">
@@ -24,7 +32,7 @@ export default {
   },
   data() {
     return {
-      title: 'Vue Admin Template',
+      title: '会员信息管理',
       logo: 'https://wpimg.wallstcn.com/69a1c46c-eb1c-4b46-8bd4-e9e686ef5251.png'
     }
   }

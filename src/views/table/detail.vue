@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2020-05-08 14:25:51
- * @LastEditTime: 2020-05-08 15:03:21
+ * @LastEditTime: 2020-05-08 15:10:12
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /admin-back/src/views/table/detail.vue
@@ -15,21 +15,41 @@
     <div class="contanier">
       <div class="user-info-box">
         <div class="title">用户信息概要</div>
+        <div class="user-infos">
+          <el-row>
+            <el-col :span="6">
+              <div class="grid-content bg-purple" style="text-align:center">
+                asdas
+              </div>
+            </el-col>
+            <el-col :span="6">
+              <div class="grid-content bg-purple-light">
+                asdas
+              </div>
+            </el-col>
+            <el-col :span="6">
+              <div class="grid-content bg-purple">as</div>
+            </el-col>
+            <el-col :span="6">
+              <div class="grid-content bg-purple-light">as</div>
+            </el-col>
+          </el-row>
+        </div>
       </div>
     </div>
   </div>
 </template>
 <style lang="scss" scoped>
 .box {
-  .big-title{
+  .big-title {
     padding: 10px 20px 0px 20px;
     width: 100%;
     color: #788188;
-    .title-o{
+    .title-o {
       padding-bottom: 10px;
       font-size: 28px;
     }
-    .title-t{
+    .title-t {
     }
   }
   .contanier {
@@ -41,15 +61,18 @@
     box-shadow: 0px 2px 6px 0px #e1e3e5;
     border-radius: 4px;
     padding: 0;
-    .user-info-box{
+    .user-info-box {
       width: 100%;
       overflow: hidden;
-      .title{
+      .title {
         padding: 0 0 0 10px;
         height: 35px;
         line-height: 35px;
         background-color: rgba(246, 248, 248, 1);
         color: #506477;
+      }
+      .user-infos{
+        color: #788188;
       }
     }
   }

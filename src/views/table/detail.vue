@@ -1,7 +1,7 @@
 <!--
  * @Author: your name
  * @Date: 2020-05-08 14:25:51
- * @LastEditTime: 2020-05-08 16:21:53
+ * @LastEditTime: 2020-05-08 16:32:35
  * @LastEditors: Please set LastEditors
  * @Description: In User Settings Edit
  * @FilePath: /admin-back/src/views/table/detail.vue
@@ -18,7 +18,11 @@
         <div class="user-infos">
           <el-row>
             <el-col :span="6">
-              <div class="grid-content bg-purple" style="text-align:center">头像</div>
+              <div class="grid-content bg-purple" style="text-align:center">
+                <p class="pic">头像</p>
+                <div class="name">飞驰的小三轮</div>
+                <div class="userId">(UserID:2356942)</div>
+              </div>
             </el-col>
             <el-col :span="6">
               <div class="grid-content bg-purple-light">
@@ -144,7 +148,6 @@
       <div class="lable-box">
         <p>
           会员标签：
-          信息详情：
           男士 / 85后 / 认证车主 / VA3社群 / VA5社群 / 旅行爱好者 / 改装爱好者/ 社区活跃用户
         </p>
       </div>
@@ -223,6 +226,18 @@ export default {
         color: #788188;
         font-size: 12px;
         border-bottom: 1px solid #ccc;
+        .pic{
+          margin: 0 auto;
+          width: 110px;
+          height: 110px;
+          border-radius: 50%;
+          border: 1px solid #FAD733;
+          line-height: 110px;
+        }
+        .name{
+          padding: 20px 0 10px 0;
+          font-weight: 700;
+        }
       }
       .num-box {
         // display: grid;

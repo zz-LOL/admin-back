@@ -54,6 +54,7 @@
 
 <script>
 import { validUsername } from '@/utils/validate'
+import { userinfoList } from "@/api/userinfoManage.js";
 
 export default {
   name: 'Login',
@@ -93,6 +94,8 @@ export default {
       },
       immediate: true
     }
+  },
+  mounted() {
   },
   methods: {
     showPwd() {

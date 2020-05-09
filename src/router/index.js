@@ -66,18 +66,26 @@ export const constantRoutes = [
         path: 'table',
         name: 'table',
         component: () => import('@/views/table/index'),
-        meta: { title: '表格', icon: 'table' }
+        meta: { title: '列表页', icon: 'table' }
       },
       {
         path: '/detail',
         name: 'detail',
-        hidden: true,
+        // hidden: true,
         component: () => import('@/views/table/detail'),
-        meta: { title: '详情', icon: 'table' }
+        meta: { title: '详情页', icon: 'table' }
+      },
+      {
+        path: '/edit',
+        name: 'edit',
+        // hidden: true,
+        component: () => import('@/views/table/edit'),
+        meta: { title: '编辑页', icon: 'table' }
       },
       {
         path: 'tree',
         name: 'tree',
+        hidden: true,
         component: () => import('@/views/tree/index'),
         meta: { title: '树状结构', icon: 'tree' }
       }

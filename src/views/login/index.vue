@@ -54,7 +54,7 @@
 
 <script>
 import { validUsername } from '@/utils/validate'
-import { userinfoList } from "@/api/userinfoManage.js";
+import { userinfoList } from '@/api/userinfoManage.js'
 
 export default {
   name: 'Login',

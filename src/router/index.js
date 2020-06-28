@@ -54,7 +54,6 @@ export const constantRoutes = [
       meta: { title: '首页', icon: 'dashboard' }
     }]
   },
-
   {
     path: '/example',
     component: Layout,
@@ -91,7 +90,6 @@ export const constantRoutes = [
       }
     ]
   },
-
   {
     path: '/form',
     component: Layout,
@@ -102,6 +100,27 @@ export const constantRoutes = [
         component: () => import('@/views/form/index'),
         meta: { title: '表单', icon: 'form' }
       }
+    ]
+  },
+  {
+    path: '/outlets',
+    component: Layout,
+    redirect: '/outlets/serviceStation',
+    name: 'outlets',
+    meta: { title: '网点管理', icon: 'example' },
+    children: [
+      {
+        path: 'serviceStation',
+        name: 'serviceStation',
+        component: () => import('@/views/serviceStation/index'),
+        meta: { title: '服务站管理', icon: 'table' }
+      },
+      {
+        path: 'serviceStationDetail',
+        name: 'serviceStationDetail',
+        component: () => import('@/views/serviceStation/detail'),
+        meta: { title: '换电站管理', icon: 'table' }
+      },
     ]
   },
 

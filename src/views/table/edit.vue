@@ -3,7 +3,7 @@
  * @Email: wangxudong@foxgoing.com
  * @Date: 2020-05-09 10:30:22
  * @LastEditors: wangxudong
- * @LastEditTime: 2020-05-09 11:05:02
+ * @LastEditTime: 2020-06-22 14:08:24
  * @Description: 编辑页
  -->
 
@@ -184,7 +184,6 @@
         <el-button v-if="!isEdit" @click="resetForm('couponFrom')">返回列表</el-button>
       </div>
     </div>
-
   </div>
 </template>
 <script>
@@ -348,10 +347,10 @@ export default {
         this.loading = true;
         fetchProductList({ keyword: query }).then(response => {
           this.loading = false;
-          let productList = response.data;
+          const productList = response.data;
           this.selectProductOptions = [];
           for (let i = 0; i < productList.length; i++) {
-            let item = productList[i];
+            const item = productList[i];
             this.selectProductOptions.push({
               productId: item.id,
               productName: item.name,

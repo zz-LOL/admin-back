@@ -4,7 +4,7 @@
  * @Date: 2020-05-08 17:53:41
  * @LastEditors: wangxudong
  * @LastEditTime: 2020-05-08 17:53:56
- * @Description: 
+ * @Description:
  */
 
 Math.easeInOutQuad = function(t, b, c, d) {

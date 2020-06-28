@@ -3,7 +3,7 @@
  * @Email: wangxudong@foxgoing.com
  * @Date: 2020-05-08 10:43:37
  * @LastEditors: wangxudong
- * @LastEditTime: 2020-05-08 14:32:22
+ * @LastEditTime: 2020-06-19 17:25:33
  * @Description: sidebar头部
  -->
 <template>
@@ -32,7 +32,7 @@ export default {
   },
   data() {
     return {
-      title: '会员信息管理',
+      title: '车主服务',
       logo: 'https://wpimg.wallstcn.com/69a1c46c-eb1c-4b46-8bd4-e9e686ef5251.png'
     }
   }

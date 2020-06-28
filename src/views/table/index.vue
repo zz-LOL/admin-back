@@ -1,19 +1,12 @@
-<!--
- * @Author: your name
- * @Date: 2020-05-08 14:25:51
- * @LastEditTime: 2020-05-09 11:18:18
- * @LastEditors: wangxudong
- * @Description: In User Settings Edit
- * @FilePath: /admin-back/src/views/table/detail.vue
- -->
+
 <template>
   <div class="box">
     <div class="big-title">
-      <div class="title-o">会员信息管理</div>
-      <div class="title-t">会员信息管理作为会员服务系统中的基础会员服务模块，您可以在会员信息管理中查询该会员的详细基础信息和大量的会员行为信息</div>
+      <div class="title-o">经销商管理</div>
+      <div class="title-t">管理员可以在此模块中管理经销商的基础信息</div>
     </div>
     <div class="condition-box">
-      <div class="content-title">用户信息检索</div>
+      <div class="content-title">搜索</div>
 
       <div class="condition-box-l">
         <div class="condition-box-f">
@@ -43,6 +36,7 @@
                 <el-option :value="1">已认证</el-option>
               </el-select>
             </div>
+
             <div class="col">
               <span>会员等级:</span>
               <el-select v-model="filter.authorStatus" style="width: 100%" placeholder="请选择">
@@ -61,6 +55,9 @@
             </div>
             <div class="col">
               <span>注册时间:</span>
+
+
+
               <el-date-picker
                 v-model="filter.registerStartTime"
                 style="width: 100%"
@@ -124,7 +121,12 @@
           </el-table-column>
         </el-table>
         <div class="batch-operate-container">
-          <el-select size="small" style="float: left;margin-right: 20px;" v-model="operateType" placeholder="批量操作">
+          <el-select
+            size="small"
+            style="float: left;margin-right: 20px;"
+            v-model="operateType"
+            placeholder="批量操作"
+          >
             <el-option
               v-for="item in operates"
               :key="item.value"
@@ -187,6 +189,7 @@ export default {
           dataIndex: "provinceName",
           scopedSlots: { customRender: "provinceName" }
         },
+
         {
           title: "认证状态",
           dataIndex: "authorStatus",
@@ -328,6 +331,7 @@ export default {
               updateTime: "2020-03-30 10:27:51",
               userIdStr: ""
             },
+
             {
               account: "15010376858",
               address: "电影学院",
@@ -512,7 +516,6 @@ export default {
   }
 };
 </script>
-
 
 <style lang="scss" scoped>
 .box {

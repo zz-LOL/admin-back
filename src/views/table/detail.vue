@@ -174,21 +174,21 @@ export default {
   data() {
     return {
       items: [
-        { type: "", label: "认证记录" },
-        { type: "", label: "积分记录" },
-        { type: "", label: "返厂记录" },
-        { type: "", label: "推荐购车" },
-        { type: "", label: "商城订单" },
-        { type: "", label: "预约试驾" },
-        { type: "", label: "编辑记录" },
-        { type: "", label: "附件管理" },
-        { type: "", label: "紧急救援" },
-        { type: "", label: "商城订单" },
-        { type: "", label: "认证记录" }
+        { type: '', label: '认证记录' },
+        { type: '', label: '积分记录' },
+        { type: '', label: '返厂记录' },
+        { type: '', label: '推荐购车' },
+        { type: '', label: '商城订单' },
+        { type: '', label: '预约试驾' },
+        { type: '', label: '编辑记录' },
+        { type: '', label: '附件管理' },
+        { type: '', label: '紧急救援' },
+        { type: '', label: '商城订单' },
+        { type: '', label: '认证记录' }
       ]
-    };
+    }
   }
-};
+}
 </script>
 <style lang="scss" scoped>
 .box {

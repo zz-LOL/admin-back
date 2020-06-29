@@ -3,33 +3,33 @@
  * @Email: wangxudong@foxgoing.com
  * @Date: 2020-06-22 16:31:22
  * @LastEditors: wangxudong
- * @LastEditTime: 2020-06-28 16:06:27
- * @Description: 服务站详情
+ * @LastEditTime: 2020-06-29 15:27:02
+ * @Description: 经销商详情
 --> 
 
 <template>
   <div class="goods-contanier">
     <div class="big-title">
-      <div class="title-o">服务站详情</div>
-      <div class="title-t">查看服务站的详细信息，包括基础门店信息和补充信息</div>
+      <div class="title-o">经销商详情</div>
+      <div class="title-t">查看经销商的详细信息，包括基础门店信息和补充信息</div>
     </div>
     
     <!-- 基本信息 -->
     <div class="base-info">
-      <div class="title">服务站基础信息</div>
+      <div class="title">经销商基础信息</div>
       <div class="infos-contanier">
         <el-row>
           <el-col :span="6">
-            <span>服务站代码：</span>
-            {{ detail.serviceStandCode }}
+            <span>经销商代码：</span>
+            {{ detail.dealerCode }}
           </el-col>
           <el-col :span="6">
-            <span>服务站简称：</span>
-            {{ detail.serviceStandShortName }}
+            <span>经销商简称：</span>
+            {{ detail.dealerShortName }}
           </el-col>
           <el-col :span="6">
-            <span>服务站全称：</span>
-            {{ detail.serviceStandName }}
+            <span>经销商全称：</span>
+            {{ detail.dealerName }}
           </el-col>
           <el-col :span="6">
             <span>联系方式：</span>
@@ -102,15 +102,7 @@
         <div class="clear"></div>
       </div>
 
-      <div class="list">
-        <div class="left-key">服务类型:</div>
-        <div class="right-value" v-if="detail.saleType === 1">燃油车</div>
-        <div class="right-value" v-if="detail.saleType === 2">电动车</div>
-        <div class="right-value" v-if="detail.saleType === 3">混合车</div>
-        <div class="clear"></div>
-      </div>
-
-      <div class="list">
+      <div class="list"  v-if="detail.provideServiceList">
         <div class="left-key">提供服务:</div>
         <div class="right-value">{{ getServerName(detail.provideServiceList) }}</div>
         <div class="clear"></div>
@@ -128,8 +120,7 @@
 </template>
 
 <script>
-import { getServiceById } from "@/api/outlet.js";
-
+import { getDealerById } from '@/api/dealer.js'
 export default {
   props: {
     queryId: {
@@ -145,7 +136,7 @@ export default {
   },
   created() {
     if (this.queryId) {
-      getServiceById(this.queryId).then(response => {
+      getDealerById(this.queryId).then(response => {
         if (response.code === 200) {
           this.detail = response.result;
         }
@@ -312,6 +303,7 @@ export default {
     font-family: "PingFangSC";
     font-size: 14px;
     color: #333;
+    margin-bottom: 20px;
   }
   .list {
     width: 100%;

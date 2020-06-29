@@ -3,16 +3,16 @@
  * @Email: wangxudong@foxgoing.com
  * @Date: 2020-06-22 16:30:00
  * @LastEditors: wangxudong
- * @LastEditTime: 2020-06-28 17:22:06
- * @Description: 服务站列表
+ * @LastEditTime: 2020-06-29 14:01:03
+ * @Description: 换电站列表
 --> 
 
 <template>
   <div class="box">
     <div v-if="!showPage && !showDetail">
       <div class="big-title">
-      <div class="title-o">服务站管理</div>
-      <div class="title-t">管理员可以在此模块中管理服务站的基础信息</div>
+      <div class="title-o">换电站管理</div>
+      <div class="title-t">管理员可以在此模块中管理换电站的基础信息</div>
     </div>
     <div class="condition-box">
       <div class="content-title">搜索</div>
@@ -21,35 +21,45 @@
         <div class="condition-box-f">
           <div class="input-box">
             <div class="col">
-              <span>服务站代码:</span>
-              <el-input placeholder="请输入" size="medium" v-model="filter.serviceStandCode"></el-input>
+              <span>换电站代码:</span>
+              <el-input placeholder="请输入" size="medium" v-model="filter.chargingCode"></el-input>
             </div>
             <div class="col">
-              <span>服务站简称:</span>
-              <el-input placeholder="请输入" size="medium" v-model="filter.serviceStandShortName"></el-input>
+              <span>换电站简称:</span>
+              <el-input placeholder="请输入" size="medium" v-model="filter.chargingShortName"></el-input>
             </div>
             <div class="col">
-              <span>服务站全称:</span>
-              <el-input placeholder="请输入" size="medium" v-model="filter.serviceStandName"></el-input>
+              <span>换电站全称:</span>
+              <el-input placeholder="请输入" size="medium" v-model="filter.chargingName"></el-input>
             </div>
           </div>
           <div class="input-box">
             <div class="col">
-              <span>服务站所在省:</span>
-              <el-select v-model="filter.provinceCode" size="medium" style="width: 100%" placeholder="请选择">
-                <el-option :value="0">北京市</el-option>
-                <el-option :value="1">天津市</el-option>
+              <span>部门:</span>
+              <el-select v-model="filter.department" size="medium" style="width: 100%" placeholder="请选择">
+                <el-option value="东部">东部</el-option>
+                <el-option value="西部">西部</el-option>
+                <el-option value="南部">南部</el-option>
+                <el-option value="北部">北部</el-option>
+                <el-option value="中部">中部</el-option>
+              </el-select>
+            </div>
+            <div class="col">
+              <span>换电站所在省:</span>
+              <el-select v-model="filter.provinceCode" size="medium" style="width: 100%" placeholder="请选择" @change="changeOneClass">
+                <el-option v-for="(item, index) in areaOneClass" :key="index" :label="item.name" :value="item.id" ></el-option>
               </el-select>
             </div>
 
             <div class="col">
-              <span>服务站所在市:</span>
+              <span>换电站所在市:</span>
               <el-select v-model="filter.cityCode" size="medium" style="width: 100%"  placeholder="请选择">
-                <el-option :value="0">朝阳区</el-option>
-                <el-option :value="1">海淀区</el-option>
+                <el-option v-for="(item, index) in areaTwoClass" :key="index" :label="item.name" :value="item.id" ></el-option>
               </el-select>
             </div>
 
+          </div>
+          <div class="input-box">
             <div class="col">
               <span>入网时间:</span>
               <el-date-picker
@@ -64,26 +74,7 @@
                 @change="changeDate"
               ></el-date-picker>
             </div>
-          </div>
-          <div class="input-box">
-            <div class="col">
-              <span>服务类型:</span>
-              <el-select v-model="filter.saleType" size="medium" style="width: 100%" placeholder="请选择">
-                <el-option :value="1">燃油车</el-option>
-                <el-option :value="2">电动车</el-option>
-                <el-option :value="3">混合车</el-option>
-              </el-select>
-            </div>
-            <div class="col">
-              <span>部门:</span>
-              <el-select v-model="filter.department" size="medium" style="width: 100%" placeholder="请选择">
-                <el-option value="东部">东部</el-option>
-                <el-option value="西部">西部</el-option>
-                <el-option value="南部">南部</el-option>
-                <el-option value="北部">北部</el-option>
-                <el-option value="中部">中部</el-option>
-              </el-select>
-            </div>
+            <div class="col"></div>
             <div class="col"></div>
           </div>
         </div>
@@ -97,31 +88,25 @@
 
     <div class="btn-box">
       <el-button type="primary" size="medium" @click="newPage">新增</el-button>
-
+      <el-button type="primary" size="medium" @click="showAbleBatch">批量启用</el-button>
+      <el-button type="primary" size="medium" @click="showDisBatch">批量禁用</el-button>
     </div>
 
     <!-- 表格渲染 -->
     <div class="condition-box">
       <div class="content-title">会员列表</div>
       <el-tabs v-model="filter.status" type="card" @tab-click="handleClick">
-        <el-tab-pane label="全部" name=""></el-tab-pane>
-        <el-tab-pane label="启用" name="1"></el-tab-pane>
-        <el-tab-pane label="禁用" name="2"></el-tab-pane>
+        <el-tab-pane label="全部" :name="0"></el-tab-pane>
+        <el-tab-pane label="启用" :name="1"></el-tab-pane>
+        <el-tab-pane label="禁用" :name="2"></el-tab-pane>
       </el-tabs>
       <div class="tabs-content">
         <el-table v-loading="ajaxContent.loading" :data="columnsData" style="width: 100%" @selection-change="handleSelectionChange">
           <el-table-column type="selection" width="60" align="center"></el-table-column>
-          <el-table-column prop="serviceStandCode" label="服务站编码" width="180"></el-table-column>
-          <el-table-column prop="serviceStandShortName" label="服务站简称" width="180"></el-table-column>
-          <el-table-column prop="serviceStandName" label="服务站全称" width="180"></el-table-column>
+          <el-table-column prop="chargingCode" label="换电站代码" width="180"></el-table-column>
+          <el-table-column prop="chargingShortName" label="换电站简称" width="180"></el-table-column>
+          <el-table-column prop="chargingName" label="换电站全称" width="180"></el-table-column>
           <el-table-column prop="department" label="部门" width="180"></el-table-column>
-          <el-table-column prop="saleType" label="服务类型" width="180">
-            <template slot-scope="scope">
-              <p v-if="scope.row.saleType === 1">燃油车</p>
-              <p v-if="scope.row.saleType === 2">电动车</p>
-              <p v-if="scope.row.saleType === 2">混合车</p>
-            </template>
-          </el-table-column>
           <el-table-column prop="provinceName" label="所在省" width="180"></el-table-column>
           <el-table-column prop="cityName" label="所在市" width="180"></el-table-column>
           <el-table-column prop="address" label="详细地址" width="180"></el-table-column>
@@ -187,6 +172,19 @@
         <el-button type="primary" @click="handleStatus">确 定</el-button>
       </span>
     </el-dialog>
+
+     <el-dialog
+      :title="showBatchStatus === 1 ? '批量启用通知' : '批量禁用通知'"
+      :visible.sync="batchVisible"
+      width="30%">
+      <span v-if="showBatchStatus === 1">您确认批量启用服务站吗</span>
+      <span v-if="showBatchStatus === 2">您确认批量禁用服务站吗</span>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="batchVisible = false">取 消</el-button>
+        <el-button type="primary" @click="handleBatchStatus">确 定</el-button>
+      </span>
+    </el-dialog>
+    
     </div>
     
 
@@ -198,7 +196,7 @@
 </template>
 
 <script type='text/ecmascript-6'>
-import { serviceList, updateDisabled, updateEnabled } from "@/api/outlet.js";
+import { chargingList, chargingUpdateDisabled, chargingUpdateEnabled, chargingBatchDisabled, chargingBatchEnabled, areaDict, cityList } from "@/api/outlet.js";
 
 import Pagination from "@/components/Pagination";
 import addAndEdit from "./addAndEdit.vue"
@@ -216,9 +214,9 @@ export default {
         loading: false
       },
       filter: {
-        serviceStandCode: "",
-        serviceStandShortName: "",
-        serviceStandName: "",
+        chargingCode: "",
+        chargingShortName: "",
+        chargingName: "",
         provinceCode: undefined,
         cityCode: undefined,
         time: undefined,
@@ -226,7 +224,7 @@ export default {
         createTimeEnd: undefined,
         saleType: undefined,
         department: undefined,
-        status: "",
+        status: 0,
         startPage: 1,
         pageSize: 10
       },
@@ -244,20 +242,40 @@ export default {
       statusrDialogVisible: false,
       activeName: 'first',
       showDialogStatus: 1,
-      updateFunc: [null, updateEnabled, updateDisabled ],
+      updateFunc: [null, chargingUpdateEnabled, chargingUpdateDisabled ],
+      updateBatchFunc: [null, chargingBatchEnabled, chargingBatchDisabled ],
       statusId: null,
       showPage: false,
       queryId: null,
       isEdit: false,
       showDetail: false,
-      multipleSelection: null
+      multipleSelection: null,
+      showBatchStatus: 1,
+      batchVisible: false,
+      areaOneClass: [],
+      areaTwoClass: []
     };
   },
   mounted() {
     this.ajaxContent.loading = false;
     this.ajaxLists();
+    this.getAreaDict()
   },
   methods: {
+    changeOneClass(val, item) {
+      cityList(val).then(response => {
+        if (response.code === 200) {
+          this.areaTwoClass = response.result
+        }
+      });
+    },
+    getAreaDict() {
+      areaDict().then(response => {
+        if (response.code === 200) {
+          this.areaOneClass = response.result
+        }
+      });
+    },
     newPage() {
       this.isEdit = false
       this.queryId = null
@@ -278,9 +296,9 @@ export default {
     // 重置操作
     onDeptInit() {
       this.filter = {
-        serviceStandCode: "",
-        serviceStandShortName: "",
-        serviceStandName: "",
+        chargingCode: "",
+        chargingShortName: "",
+        chargingName: "",
         provinceCode: undefined,
         cityCode: undefined,
         time: undefined,
@@ -288,23 +306,24 @@ export default {
         createTimeEnd: undefined,
         saleType: undefined,
         department: undefined,
-        status: "",
+        status: 0,
         startPage: 1,
         pageSize: 10
       };
       this.ajaxLists();
     },
     handleSelectionChange(val) {
-      debugger
-      this.multipleSelection = val;
+      this.multipleSelection = [];
+      if (val) {
+        val.forEach(element => {
+          this.multipleSelection.push(element.id)
+        });
+      }
     },
     // 查询表单操作
     ajaxLists() {
       this.ajaxContent.loading = true;
-      if (this.filter.status != 1 && this.filter.status != 2) {
-        this.filter.status = null
-      }
-      serviceList(this.filter).then(res => {
+      chargingList(this.filter).then(res => {
         if (res.code === 200) {
           var res2 = res.result;
           this.columnsData = res2.list;
@@ -345,7 +364,7 @@ export default {
     closePageFunc() {
       this.showPage = false;
       this.showDetail = false;
-      this.ajaxLists();
+      this.onDeptInit();
     },
     handleEdit(index, row) {
       this.isEdit = true
@@ -357,6 +376,31 @@ export default {
       this.queryId = row.id
       this.showDetail = true
     },
+    showAbleBatch() {
+      this.showBatchStatus = 1
+      this.batchVisible = true
+    },
+    showDisBatch() {
+      this.showBatchStatus = 2
+      this.batchVisible = true
+    },
+    handleBatchStatus() {
+      this.updateBatchFunc[this.showBatchStatus]({idList: this.multipleSelection}).then(res => {
+        if (res.code === 200) {
+          this.batchVisible = false
+          this.ajaxLists()
+          this.$message({
+            message: this.showBatchStatus === 1 ? '批量启用成功' : '批量禁用成功',
+            type: 'success'
+          });
+        } else {
+          this.$message({
+            message: this.showBatchStatus === 1 ? '批量启用成功' : '批量禁用成功',
+            type: 'error'
+          });
+        }
+      });
+    }
   },
   watch: {
     $route: {

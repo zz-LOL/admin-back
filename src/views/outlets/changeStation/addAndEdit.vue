@@ -3,34 +3,35 @@
  * @Email: wangxudong@foxgoing.com
  * @Date: 2020-05-09 10:30:22
  * @LastEditors: wangxudong
- * @LastEditTime: 2020-06-28 14:18:35
- * @Description: 服务站新增编辑页
+ * @LastEditTime: 2020-06-29 13:44:27
+ * @Description: 换电站新增编辑页
  -->
 
 <template>
   <div class="box">
     <div class="big-title">
-      <div class="title-o" v-if="!isEdit">新增服务站</div>
-      <div class="title-t" v-if="!isEdit">新增服务站入网，输入服务站的基础信息以及补充信息</div>
-      <div class="title-o" v-if="isEdit">编辑服务站信息</div>
-      <div class="title-t" v-if="isEdit">可编辑服务站的部分基础信息和补充信息</div>
+      <div class="title-o" v-if="!isEdit">新增换电站</div>
+      <div class="title-t" v-if="!isEdit">新增换电站入网，输入换电站的基础信息以及补充信息</div>
+      <div class="title-o" v-if="isEdit">编辑换电站信息</div>
+      <div class="title-t" v-if="isEdit">可编辑换电站的部分基础信息和补充信息</div>
     </div>
 
     <div class="condition-box">
-      <div class="content-title">新增服务站</div>
+      <div class="content-title" v-if="!isEdit">新增换电站</div>
+      <div class="content-title" v-if="isEdit">编辑换电站</div>
 
       <el-card class="form-container" shadow="never">
         <el-form :model="formData" :rules="rules" ref="formData" label-width="150px" size="small">
-          <el-form-item label="服务站代码：" :required="true">
-            <el-input v-model="formData.serviceStandCode" class="input-width"></el-input>
+          <el-form-item label="换电站代码：" :required="true">
+            <el-input v-model="formData.chargingCode" class="input-width"></el-input>
           </el-form-item>
 
-          <el-form-item label="服务站简称：" :required="true">
-            <el-input v-model="formData.serviceStandShortName" class="input-width"></el-input>
+          <el-form-item label="换电站简称：" :required="true">
+            <el-input v-model="formData.chargingShortName" class="input-width"></el-input>
           </el-form-item>
 
-          <el-form-item label="服务站全称：" :required="true">
-            <el-input v-model="formData.serviceStandName" class="input-width"></el-input>
+          <el-form-item label="换电站全称：" :required="true">
+            <el-input v-model="formData.chargingName" class="input-width"></el-input>
           </el-form-item>
 
           <el-form-item label="联系方式：" :required="true">
@@ -48,22 +49,14 @@
           </el-form-item>
 
           <el-form-item label="所在省：" :required="true">
-            <el-select v-model="formData.provinceCode">
-              <el-option label="东部" value="东部" ></el-option>
-              <el-option label="西部" value="西部" ></el-option>
-              <el-option label="南部" value="南部" ></el-option>
-              <el-option label="北部" value="北部" ></el-option>
-              <el-option label="中部" value="中部" ></el-option>
+            <el-select v-model="formData.provinceCode" @change="changeOneClass">
+              <el-option v-for="(item, index) in areaOneClass" :key="index" :label="item.name" :value="item.id" ></el-option>
             </el-select>
           </el-form-item>
 
           <el-form-item label="所在市：" :required="true">
             <el-select v-model="formData.cityCode">
-              <el-option label="东部" value="东部" ></el-option>
-              <el-option label="西部" value="西部" ></el-option>
-              <el-option label="南部" value="南部" ></el-option>
-              <el-option label="北部" value="北部" ></el-option>
-              <el-option label="中部" value="中部" ></el-option>
+              <el-option v-for="(item, index) in areaTwoClass" :key="index" :label="item.name" :value="item.id" ></el-option>
             </el-select>
           </el-form-item>
 
@@ -89,13 +82,13 @@
             <el-input v-model="formData.latitude" class="input-width"></el-input>
           </el-form-item>
 
-          <el-form-item label="服务类型：" :required="true">
+          <!-- <el-form-item label="服务类型：" :required="true">
             <el-select v-model="formData.saleType">
               <el-option label="燃油车" :value="1" ></el-option>
               <el-option label="电动车" :value="2" ></el-option>
               <el-option label="混合车" :value="3" ></el-option>
             </el-select>
-          </el-form-item>
+          </el-form-item> -->
 
           <el-form-item label="提供服务：">
             <el-checkbox-group v-model="formData.provideServiceList">
@@ -125,11 +118,11 @@
     </div>
 
      <el-dialog
-      :title="isEdit ? '编辑服务站信息' : '创建服务站信息'"
+      :title="isEdit ? '编辑换电站信息' : '创建换电站信息'"
       :visible.sync="confirmDialog"
       width="30%">
-      <span v-if="isEdit">您确认编辑此服务站信息吗</span>
-      <span v-if="!isEdit">您确认创建此服务站信息吗</span>
+      <span v-if="isEdit">您确认编辑此换电站信息吗</span>
+      <span v-if="!isEdit">您确认创建此换电站信息吗</span>
       <span slot="footer" class="dialog-footer">
         <el-button @click="confirmDialog = false">取 消</el-button>
         <el-button type="primary" @click="handleConfirm">确 定</el-button>
@@ -141,7 +134,7 @@
 </template>
 <script>
 import uploadImg from "./uploadImg.vue";
-import { getServiceById, serviceSave, serviceUpdate } from "@/api/outlet.js";
+import { getChargingById, chargingSave, chargingUpdate, areaDict, cityList } from "@/api/outlet.js";
 
 export default {
   name: "serviceAddAndEdit",
@@ -159,9 +152,9 @@ export default {
   data() {
     return {
       formData: {
-        serviceStandCode: '',
-        serviceStandShortName: '',
-        serviceStandName: '',
+        chargingCode: '',
+        chargingShortName: '',
+        chargingName: '',
         mobile: '',
         department: undefined,
         provinceCode: undefined,
@@ -170,56 +163,59 @@ export default {
         shopImgList: null,
         accuracy: '',
         latitude: '',
-        saleType: undefined,
+        // saleType: undefined,
         provideServiceList: [],
         status: undefined
       },
       rules: {},
-      confirmDialog: false
+      confirmDialog: false,
+      areaOneClass: [],
+      areaTwoClass: []
     };
   },
   created() {
     if (this.isEdit) {
-      getServiceById(this.queryId).then(response => {
+      getChargingById(this.queryId).then(response => {
         if (response.code === 200) {
           this.formData = response.result;
         }
       });
     }
+    this.getAreaDict()
   },
   methods: {
     onSubmit() {
       // 验证表单
-      // 验证服务站代码
-      const codeLength = this.formData.serviceStandCode.replace(/^\s+|\s+$/g, "").length;
+      // 验证换电站代码
+      const codeLength = this.formData.chargingCode.replace(/^\s+|\s+$/g, "").length;
       if (codeLength === 0 || codeLength === undefined) {
-        this.$message.error("服务站代码不能为空！");
+        this.$message.error("换电站代码不能为空！");
         return false;
       }
       if (codeLength > 20) {
-        this.$message.error("服务站代码不能超过20个字符！");
+        this.$message.error("换电站代码不能超过20个字符！");
         return false;
       }
 
-      // 验证服务站简称
-      const shortNameLength = this.formData.serviceStandShortName.replace(/^\s+|\s+$/g, "").length;
+      // 验证换电站简称
+      const shortNameLength = this.formData.chargingShortName.replace(/^\s+|\s+$/g, "").length;
       if (shortNameLength === 0 || shortNameLength === undefined) {
-        this.$message.error("服务站简称不能为空！");
+        this.$message.error("换电站简称不能为空！");
         return false;
       }
       if (shortNameLength > 20) {
-        this.$message.error("服务站简称不能超过20个字符！");
+        this.$message.error("换电站简称不能超过20个字符！");
         return false;
       }
 
-      // 验证服务站全称
-      const standNameLength = this.formData.serviceStandName.replace(/^\s+|\s+$/g, "").length;
+      // 验证换电站全称
+      const standNameLength = this.formData.chargingName.replace(/^\s+|\s+$/g, "").length;
       if (standNameLength === 0 || standNameLength === undefined) {
-        this.$message.error("服务站全称不能为空！");
+        this.$message.error("换电站全称不能为空！");
         return false;
       }
       if (standNameLength > 50) {
-        this.$message.error("服务站全称不能超过50个字符！");
+        this.$message.error("换电站全称不能超过50个字符！");
         return false;
       }
 
@@ -230,7 +226,7 @@ export default {
         return false;
       }
       if (mobileLength > 100) {
-        this.$message.error("服务站全称不能超过100个字符！");
+        this.$message.error("换电站全称不能超过100个字符！");
         return false;
       }
 
@@ -286,10 +282,10 @@ export default {
       }
 
       // 验证服务类型
-      if (this.formData.saleType === '' || this.formData.saleType === undefined || this.formData.saleType === null) {
+      /* if (this.formData.saleType === '' || this.formData.saleType === undefined || this.formData.saleType === null) {
         this.$message.error("请选择服务类型！");
         return false;
-      }
+      } */
 
       // 验证当前状态
       if (this.formData.status === '' || this.formData.status === undefined || this.formData.status === null) {
@@ -303,24 +299,24 @@ export default {
     handleConfirm() {
       if (!this.isEdit) {
         // 如果是新增
-        serviceSave(this.formData).then(response => {
+        chargingSave(this.formData).then(response => {
           if (response.code === 200) {
-            this.$message.success('新增服务站信息成功!')
+            this.$message.success('新增换电站信息成功!')
             this.confirmDialog = false
             this.returnList()
           } else {
-            this.$message.error('新增服务站信息失败!')
+            this.$message.error('新增换电站信息失败!')
           }
         });
       } else {
         // 如果是编辑
-        serviceUpdate(this.formData).then(response => {
+        chargingUpdate(this.formData).then(response => {
           if (response.code === 200) {
-            this.$message.success('编辑服务站信息成功!')
+            this.$message.success('编辑换电站信息成功!')
             this.confirmDialog = false
             this.returnList()
           } else {
-            this.$message.error('编辑服务站信息失败!')
+            this.$message.error('编辑换电站信息失败!')
           }
         });
       }
@@ -330,6 +326,20 @@ export default {
     },
     getUploadImg(url) {
       this.formData.shopImgList = url;
+    },
+    changeOneClass(val, item) {
+      cityList(val).then(response => {
+        if (response.code === 200) {
+          this.areaTwoClass = response.result
+        }
+      });
+    },
+    getAreaDict() {
+      areaDict().then(response => {
+        if (response.code === 200) {
+          this.areaOneClass = response.result
+        }
+      });
     }
   }
 };

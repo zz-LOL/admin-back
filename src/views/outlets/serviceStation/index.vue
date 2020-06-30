@@ -3,7 +3,7 @@
  * @Email: wangxudong@foxgoing.com
  * @Date: 2020-06-22 16:30:00
  * @LastEditors: wangxudong
- * @LastEditTime: 2020-06-29 14:02:49
+ * @LastEditTime: 2020-06-29 17:17:44
  * @Description: 服务站列表
 --> 
 
@@ -51,7 +51,7 @@
             <div class="col">
               <span>入网时间:</span>
               <el-date-picker
-                v-model="filter.time"
+                v-model="time"
                 size="medium"
                 style="width: 100%"
                 type="daterange"
@@ -118,7 +118,7 @@
             <template slot-scope="scope">
               <p v-if="scope.row.saleType === 1">燃油车</p>
               <p v-if="scope.row.saleType === 2">电动车</p>
-              <p v-if="scope.row.saleType === 2">混合车</p>
+              <p v-if="scope.row.saleType === 3">混合车</p>
             </template>
           </el-table-column>
           <el-table-column prop="provinceName" label="所在省" width="180"></el-table-column>
@@ -233,7 +233,6 @@ export default {
         serviceStandName: "",
         provinceCode: undefined,
         cityCode: undefined,
-        time: undefined,
         createTimeStart: undefined,
         createTimeEnd: undefined,
         saleType: undefined,
@@ -242,6 +241,7 @@ export default {
         startPage: 1,
         pageSize: 10
       },
+      time: undefined,
       btnLoading: false,
       showDetail: false, // 是否显示详情
       queryUserId: "",

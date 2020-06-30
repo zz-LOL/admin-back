@@ -3,7 +3,7 @@
  * @Email: wangxudong@foxgoing.com
  * @Date: 2020-06-22 16:30:00
  * @LastEditors: wangxudong
- * @LastEditTime: 2020-06-29 14:01:03
+ * @LastEditTime: 2020-06-29 16:41:02
  * @Description: 换电站列表
 --> 
 
@@ -63,7 +63,7 @@
             <div class="col">
               <span>入网时间:</span>
               <el-date-picker
-                v-model="filter.time"
+                v-model="time"
                 size="medium"
                 style="width: 100%"
                 type="daterange"
@@ -219,7 +219,6 @@ export default {
         chargingName: "",
         provinceCode: undefined,
         cityCode: undefined,
-        time: undefined,
         createTimeStart: undefined,
         createTimeEnd: undefined,
         saleType: undefined,
@@ -228,6 +227,7 @@ export default {
         startPage: 1,
         pageSize: 10
       },
+      time: undefined,
       btnLoading: false,
       showDetail: false, // 是否显示详情
       queryUserId: "",

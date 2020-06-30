@@ -3,7 +3,7 @@
  * @Email: wangxudong@foxgoing.com
  * @Date: 2020-06-29 14:56:08
  * @LastEditors: wangxudong
- * @LastEditTime: 2020-06-29 15:20:17
+ * @LastEditTime: 2020-06-30 17:36:20
  * @Description: 经销商管理
  */
 
@@ -85,5 +85,16 @@ export function dealerUpdate(obj) {
     method: 'post',
     data: obj,
     baseURL: 'http://39.107.101.187/new_ow_admin/dealerInfo/update'
+  })
+}
+
+// 经销商导出
+export function dealerImportExcel(obj) {
+  return request({
+    url: '',
+    method: 'get',
+    responseType: 'blob',
+    data: obj,
+    baseURL: 'http://39.107.101.187/new_ow_admin/dealerInfo/importExcel'
   })
 }

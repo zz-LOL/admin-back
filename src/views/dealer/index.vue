@@ -3,7 +3,7 @@
  * @Email: wangxudong@foxgoing.com
  * @Date: 2020-06-22 16:30:00
  * @LastEditors: wangxudong
- * @LastEditTime: 2020-06-29 17:17:21
+ * @LastEditTime: 2020-06-30 17:36:58
  * @Description: 经销商列表
 --> 
 
@@ -90,6 +90,7 @@
       <el-button type="primary" size="medium" @click="newPage">新增</el-button>
       <el-button type="primary" size="medium" @click="showAbleBatch">批量启用</el-button>
       <el-button type="primary" size="medium" @click="showDisBatch">批量禁用</el-button>
+      <el-button type="primary" size="medium" @click="importFunc">批量导出</el-button>
     </div>
 
     <!-- 表格渲染 -->
@@ -204,7 +205,7 @@
 
 <script type='text/ecmascript-6'>
 import { areaDict, cityList } from "@/api/outlet.js";
-import { dealerList, dealerUpdateDisabled, dealerUpdateEnabled, dealerBatchDisabled, dealerBatchEnabled } from '@/api/dealer.js'
+import { dealerList, dealerUpdateDisabled, dealerUpdateEnabled, dealerBatchDisabled, dealerBatchEnabled, dealerImportExcel } from '@/api/dealer.js'
 import Pagination from "@/components/Pagination";
 import addAndEdit from "./addAndEdit.vue"
 import detailPage from "./detail.vue"
@@ -406,6 +407,19 @@ export default {
             type: 'error'
           });
         }
+      });
+    },
+    importFunc() {
+      dealerImportExcel(this.filter).then(res => {
+        const url = window.URL.createObjectURL(
+          new Blob([res], { type: "application/vnd.ms-excel" })
+        );
+        const link = document.createElement("a");
+        link.style.display = "none";
+        link.href = url;
+        link.setAttribute("download", `经销商.xlsx`);
+        document.body.appendChild(link);
+        link.click();
       });
     }
   },

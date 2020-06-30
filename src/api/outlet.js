@@ -3,7 +3,7 @@
  * @Email: wangxudong@foxgoing.com
  * @Date: 2020-06-22 17:22:08
  * @LastEditors: wangxudong
- * @LastEditTime: 2020-06-29 15:15:34
+ * @LastEditTime: 2020-06-30 17:33:15
  * @Description: 网点管理
  */
 import request from '@/utils/request'
@@ -193,5 +193,27 @@ export function cityList(obj) {
     url: '',
     method: 'get',
     baseURL: 'http://39.107.101.187/new_ow_admin/areaDict/cityList/' + obj
+  })
+}
+
+// 服务站导出
+export function serviceImportExcel(obj) {
+  return request({
+    url: '',
+    method: 'get',
+    responseType: 'blob',
+    data: obj,
+    baseURL: 'http://39.107.101.187/new_ow_admin/serviceStand/importExcel'
+  })
+}
+
+// 服务站导出
+export function chargingImportExcel(obj) {
+  return request({
+    url: '',
+    method: 'get',
+    responseType: 'blob',
+    data: obj,
+    baseURL: 'http://39.107.101.187/new_ow_admin/chargingStand/importExcel'
   })
 }

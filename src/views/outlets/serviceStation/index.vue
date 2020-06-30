@@ -3,7 +3,7 @@
  * @Email: wangxudong@foxgoing.com
  * @Date: 2020-06-22 16:30:00
  * @LastEditors: wangxudong
- * @LastEditTime: 2020-06-29 17:17:44
+ * @LastEditTime: 2020-06-30 17:28:59
  * @Description: 服务站列表
 --> 
 
@@ -97,6 +97,7 @@
       <el-button type="primary" size="medium" @click="newPage">新增</el-button>
       <el-button type="primary" size="medium" @click="showAbleBatch">批量启用</el-button>
       <el-button type="primary" size="medium" @click="showDisBatch">批量禁用</el-button>
+      <el-button type="primary" size="medium" @click="importFunc">批量导出</el-button>
     </div>
 
     <!-- 表格渲染 -->
@@ -210,7 +211,7 @@
 </template>
 
 <script type='text/ecmascript-6'>
-import { serviceList, updateDisabled, updateEnabled, updateBatchDisabled, updateBatchEnabled, areaDict, cityList } from "@/api/outlet.js";
+import { serviceList, updateDisabled, updateEnabled, updateBatchDisabled, updateBatchEnabled, areaDict, cityList, serviceImportExcel } from "@/api/outlet.js";
 
 import Pagination from "@/components/Pagination";
 import addAndEdit from "./addAndEdit.vue"
@@ -413,6 +414,19 @@ export default {
             type: 'error'
           });
         }
+      });
+    },
+    importFunc() {
+      serviceImportExcel(this.filter).then(res => {
+        const url = window.URL.createObjectURL(
+          new Blob([res], { type: "application/vnd.ms-excel" })
+        );
+        const link = document.createElement("a");
+        link.style.display = "none";
+        link.href = url;
+        link.setAttribute("download", `服务站.xlsx`);
+        document.body.appendChild(link);
+        link.click();
       });
     }
   },
